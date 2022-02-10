@@ -21,27 +21,39 @@ public class StudentService {
 		return studentProfileRepository.findAll();
 	}
 
-	public void addNewStudent(StudentProfile studentProfile) {
+	public void addNewStudent(StudentProfile studentProfile) throws Exception {
 		Optional<StudentProfile> findStudentProfile =
 				studentProfileRepository.findStudentProfile(
 						studentProfile.getName(),
 						studentProfile.getGender()
 				);
-		 if (findStudentProfile.isPresent()){
-			 throw new IllegalStateException("Profile Already Exist! Try Another One!");
-		 }
-		 studentProfileRepository.save(studentProfile);
+
+		if (findStudentProfile.isPresent()){
+			 throw new IllegalStateException(
+					 "Profile: "+studentProfile.getName()
+					 +", Already Exist! Try Another One!"
+			 );
+		}else{
+			studentProfileRepository.save(studentProfile);
+			throw new Exception(
+					"Profile: "+studentProfile.getName()+", Added Sucessfully"
+			);
+		}
 	}
 
-	public void deleteStudentProfile(Long studentID) {
-		studentProfileRepository.findById(studentID);
-		boolean exists = studentProfileRepository.existsById(studentID);
-		if(!exists){
+	public void deleteStudentProfile(Long studentID) throws Exception {
+		if(!(studentProfileRepository.existsById(studentID))){
 			throw new IllegalStateException(
 					"Record for the student doesn't exists. Probably removed by a user."
 			);
+		}else{
+			String studentName = studentProfileRepository.findById(studentID).get().getName();
+			studentProfileRepository.deleteById(studentID);
+			throw new Exception(
+					"Profile: "+studentName+", Deleted"
+			);
 		}
-		studentProfileRepository.deleteById(studentID);
+
 	}
 
 	@Transactional
