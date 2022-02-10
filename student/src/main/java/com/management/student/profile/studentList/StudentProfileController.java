@@ -22,12 +22,12 @@ public class StudentProfileController {
 	}
 
 	@PostMapping
-	public void addNewStudentProfile(@RequestBody StudentProfile studentProfile) throws Exception{
+	public void addNewStudentProfile(@RequestBody StudentProfile studentProfile){
 		studentService.addNewStudent(studentProfile);
 	}
 
 	@DeleteMapping(path = "{studentID}")
-	public void deleteStudentProfile(@PathVariable("studentID") Long studentID) throws Exception {
+	public void deleteStudentProfile(@PathVariable("studentID") Long studentID){
 		studentService.deleteStudentProfile(studentID);
 	}
 

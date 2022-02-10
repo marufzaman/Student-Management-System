@@ -21,7 +21,7 @@ public class StudentService {
 		return studentProfileRepository.findAll();
 	}
 
-	public void addNewStudent(StudentProfile studentProfile) throws Exception {
+	public void addNewStudent(StudentProfile studentProfile){
 		Optional<StudentProfile> findStudentProfile =
 				studentProfileRepository.findStudentProfile(
 						studentProfile.getName(),
@@ -33,27 +33,17 @@ public class StudentService {
 					 "Profile: "+studentProfile.getName()
 					 +", Already Exist! Try Another One!"
 			 );
-		}else{
-			studentProfileRepository.save(studentProfile);
-			throw new Exception(
-					"Profile: "+studentProfile.getName()+", Added Sucessfully"
-			);
 		}
+		studentProfileRepository.save(studentProfile);
 	}
 
-	public void deleteStudentProfile(Long studentID) throws Exception {
+	public void deleteStudentProfile(Long studentID){
 		if(!(studentProfileRepository.existsById(studentID))){
 			throw new IllegalStateException(
 					"Record for the student doesn't exists. Probably removed by a user."
 			);
-		}else{
-			String studentName = studentProfileRepository.findById(studentID).get().getName();
-			studentProfileRepository.deleteById(studentID);
-			throw new Exception(
-					"Profile: "+studentName+", Deleted"
-			);
 		}
-
+		studentProfileRepository.deleteById(studentID);
 	}
 
 	@Transactional
