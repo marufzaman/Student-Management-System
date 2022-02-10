@@ -52,7 +52,7 @@ public class DepartmentController {
         if(!dept.isPresent()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-//        dept.save(department);
+        repo.save(department);
 
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }

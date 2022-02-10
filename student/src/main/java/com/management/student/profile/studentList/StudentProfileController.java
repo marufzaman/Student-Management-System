@@ -1,10 +1,8 @@
-package com.management.student.profile;
+package com.management.student.profile.studentList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -24,13 +22,12 @@ public class StudentProfileController {
 	}
 
 	@PostMapping
-	public void addNewStudentProfile(@RequestBody StudentProfile studentProfile){
+	public void addNewStudentProfile(@RequestBody StudentProfile studentProfile) throws Exception{
 		studentService.addNewStudent(studentProfile);
 	}
 
 	@DeleteMapping(path = "{studentID}")
-	public void deleteStudentProfile(
-			@PathVariable("studentID") Long studentID){
+	public void deleteStudentProfile(@PathVariable("studentID") Long studentID) throws Exception {
 		studentService.deleteStudentProfile(studentID);
 	}
 

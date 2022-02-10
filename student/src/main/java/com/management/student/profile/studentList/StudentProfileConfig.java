@@ -1,4 +1,4 @@
-package com.management.student.profile;
+package com.management.student.profile.studentList;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
+//@Configuration
 public class StudentProfileConfig {
     List<StudentProfile> StudentProfiles = new ArrayList<>();
 
@@ -46,10 +46,7 @@ public class StudentProfileConfig {
             );
             StudentProfiles.add(studentProfileSample_5);
 
-            profileRepository.saveAll(
-//                    List.of(studentProfileSample_1, studentProfileSample_2, studentProfileSample_3, studentProfileSample_4, studentProfileSample_5)
-                    StudentProfiles
-            );
+            profileRepository.saveAll(StudentProfiles);
         };
     }
 }
