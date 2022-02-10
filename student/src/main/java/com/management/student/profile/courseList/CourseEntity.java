@@ -1,17 +1,31 @@
 package com.management.student.profile.courseList;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Entity
 public class CourseEntity {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    @Column(name="course_id")
+    @SequenceGenerator(
+            name = "Course_sequence",
+            sequenceName = "Course_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "Course_sequence"
+    )
+    @Column(
+            name = "courseId",
+            updatable = false
+    )
     private Long courseId;
-    @Column(name="course_name")
+
+    @Column(
+            name = "courseName",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
     private String courseName;
 
     /*@ManyToOne

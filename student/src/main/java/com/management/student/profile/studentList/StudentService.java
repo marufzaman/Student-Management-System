@@ -13,7 +13,6 @@ public class StudentService {
 
 	private final StudentProfileRepository studentProfileRepository;
 
-	@Autowired
 	public StudentService(StudentProfileRepository studentProfileRepository) {
 		this.studentProfileRepository = studentProfileRepository;
 	}

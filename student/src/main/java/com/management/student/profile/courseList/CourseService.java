@@ -1,10 +1,9 @@
 package com.management.student.profile.courseList;
 
-
-
 import java.util.List;
 
 public interface CourseService {
+
 
     // show all courses
     List<CourseEntity> getAllCourses();
