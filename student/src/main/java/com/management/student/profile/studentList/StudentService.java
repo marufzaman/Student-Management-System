@@ -1,4 +1,4 @@
-package com.management.student.profile;
+package com.management.student.profile.studentList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

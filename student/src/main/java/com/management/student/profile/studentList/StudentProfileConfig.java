@@ -1,4 +1,4 @@
-package com.management.student.profile;
+package com.management.student.profile.studentList;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
