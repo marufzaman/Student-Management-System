@@ -1,7 +1,5 @@
-package com.management.student.profile;
+package com.management.student.profile.departmentList;
 
-import com.management.student.profile.DepartmentEntity;
-import com.management.student.profile.DepartmentServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

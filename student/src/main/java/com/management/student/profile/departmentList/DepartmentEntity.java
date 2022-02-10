@@ -1,4 +1,4 @@
-package com.management.student.profile;
+package com.management.student.profile.departmentList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
