@@ -1,26 +1,35 @@
-package com.management.student.profile.resultList;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class ResultService {
-
-    @Autowired
-    private ResultRepository resultRepository;
-   List<ResultEntity> resultinput;
-    public ResultService(){
-        resultinput  =  new ArrayList<>();
-        resultinput.add( new ResultEntity(1,1,"Pass"));
-        resultinput.add( new ResultEntity(2,2,"Fail"));
-        resultinput.add( new ResultEntity(3,3,"Pass"));
-
-    }
-
-    public List<ResultEntity> getAllResult() {
-
+//package com.management.student.profile.resultList;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.stereotype.Service;
+//
+//import java.util.ArrayList;
+//import java.util.Collections;
+//import java.util.List;
+//
+//@Service
+//public class ResultService {
+//
+//    @Autowired
+//    private ResultRepository resultRepository;
+//
+//    private List<ResultEntity> showresult = new ArrayList<>();
+//
+//    public ResultService(){
+//        ResultEntity resultEntity = new ResultEntity(1,1,"Pass");
+//        ResultEntity resultEntity2 = new ResultEntity(2,2,"Fail");
+//        showresult.add(resultEntity);
+//        showresult.add(resultEntity2);
+//
+//    }
+//
+//    public List<ResultEntity> getAllResult() {
 //        return (List<ResultEntity>) resultRepository.findAll();
-        return  resultinput;
- }
-}
+// }
+//
+//    public void saveStudent(ResultEntity resultEntity) {
+//        resultRepository.save(resultEntity);
+//
+//    }
+//
+//}
