@@ -1,4 +1,4 @@
-package com.management.student.profile;
+package com.management.student.profile.studentList;
 
 import javax.persistence.*;
 
