@@ -46,10 +46,7 @@ public class StudentProfileConfig {
             );
             StudentProfiles.add(studentProfileSample_5);
 
-            profileRepository.saveAll(
-//                    List.of(studentProfileSample_1, studentProfileSample_2, studentProfileSample_3, studentProfileSample_4, studentProfileSample_5)
-                    StudentProfiles
-            );
+            profileRepository.saveAll(StudentProfiles);
         };
     }
 }
