@@ -1,6 +1,5 @@
 package com.management.student.profile.studentList;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,8 +20,8 @@ public class StudentService {
 		return studentProfileRepository.findAll();
 	}
 
-	public StudentProfile getById(Long studentID){
-		studentProfileRepository.findById(studentID);
+	public Optional<StudentProfile> getStudent(Long studentID){
+		return studentProfileRepository.findById(studentID);
 	}
 
 	public void addNewStudent(StudentProfile studentProfile){

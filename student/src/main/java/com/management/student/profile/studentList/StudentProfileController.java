@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/students")
@@ -22,8 +23,8 @@ public class StudentProfileController {
 	}
 
 	@GetMapping(path = "{studentID}")
-	public StudentProfile getStudent(@PathVariable("studentID") Long studentID){
-		return studentService.getById(studentID);
+	public Optional<StudentProfile> getStudent(@PathVariable("studentID") Long studentID){
+		return studentService.getStudent(studentID);
 	}
 
 	@PostMapping
