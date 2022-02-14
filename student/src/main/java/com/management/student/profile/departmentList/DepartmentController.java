@@ -45,7 +45,7 @@ public class DepartmentController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    @PatchMapping ("/api/department/{id}")
+    @PutMapping ("/api/department/{id}")
     public ResponseEntity deleteDepartments(@PathVariable Integer id, @RequestBody DepartmentEntity department){
         Optional<DepartmentEntity> dept = repo.findById(id);
 
