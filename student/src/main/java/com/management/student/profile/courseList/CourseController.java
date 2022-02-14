@@ -2,6 +2,8 @@ package com.management.student.profile.courseList;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,13 +46,13 @@ public class CourseController {
 
     // delete course
     @DeleteMapping(path = "{courseID}")
-    public String deleteStudent(@PathVariable Long courseID) {
+    public ResponseEntity deleteStudent(@PathVariable Long courseID) {
 
         // get student from database by courseId
 
 
-        courseService.deleteCourse(courseID);
-        return "course deleted";
 
+        courseService.deleteCourse(courseID);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }
