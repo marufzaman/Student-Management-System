@@ -21,6 +21,10 @@ public class StudentService {
 		return studentProfileRepository.findAll();
 	}
 
+	public StudentProfile getById(Long studentID){
+		studentProfileRepository.findById(studentID);
+	}
+
 	public void addNewStudent(StudentProfile studentProfile){
 		Optional<StudentProfile> findStudentProfile =
 				studentProfileRepository.findStudentProfile(
