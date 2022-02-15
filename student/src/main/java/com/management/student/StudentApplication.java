@@ -11,8 +11,6 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 //@ComponentScan({ "com.management.student" })
 public class StudentApplication{
-
-
 	public static void main(String[] args) {
 		SpringApplication.run(StudentApplication.class, args);
 	}
