@@ -1,6 +1,5 @@
 package com.management.student.profile.courseList;
 
-import com.management.student.profile.studentList.StudentProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
