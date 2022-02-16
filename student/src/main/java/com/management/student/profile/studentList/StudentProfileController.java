@@ -20,7 +20,7 @@ public class StudentProfileController {
 	}
 
 	@GetMapping
-	public List<StudentProfile> getStudentProfiles() throws Exception {
+	public List<StudentProfile> getStudentProfiles(){
 		return studentService.getStudentProfiles();
 	}
 
@@ -30,7 +30,7 @@ public class StudentProfileController {
 	}
 
 	@PostMapping
-	public void addNewStudentProfile(@Valid @RequestBody StudentProfile studentProfile) throws Exception {
+	public void addNewStudentProfile(@Valid @RequestBody StudentProfile studentProfile){
 		studentService.addNewStudent(studentProfile);
 	}
 

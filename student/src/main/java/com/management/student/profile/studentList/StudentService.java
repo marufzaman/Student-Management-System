@@ -14,12 +14,7 @@ public class StudentService {
 		this.studentProfileRepository = studentProfileRepository;
 	}
 
-	public List<StudentProfile> getStudentProfiles() throws Exception{
-		if(studentProfileRepository == null){
-			throw new Exception(
-					"Database Empty."
-			);
-		}
+	public List<StudentProfile> getStudentProfiles(){
 		return studentProfileRepository.findAll();
 	}
 
@@ -32,19 +27,7 @@ public class StudentService {
 		return studentProfileRepository.findById(studentID);
 	}
 
-	public void addNewStudent(StudentProfile studentProfile) throws Exception{
-		Optional<StudentProfile> findStudentProfile =
-				studentProfileRepository.findStudentProfile(
-						studentProfile.getName(),
-						studentProfile.getGender()
-				);
-
-		if (findStudentProfile.isPresent()){
-			 throw new Exception(
-					 "Profile: "+studentProfile.getName()
-					 +", Exists Already!"
-			 );
-		}
+	public void addNewStudent(StudentProfile studentProfile){
 		studentProfileRepository.save(studentProfile);
 	}
 
