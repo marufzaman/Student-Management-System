@@ -30,22 +30,27 @@ public class ResultController {
       return (List<ResultEntity>) results.findAll();
   }
     @PutMapping("/api/result/{id}")
-    public String UpdateResult(@PathVariable Integer id,@RequestBody ResultEntity result) {
+    public void UpdateResult(@PathVariable Integer id,@RequestBody ResultEntity result) {
 
         Optional<ResultEntity> optional = results.findById(id);
 
-       if(optional.isPresent()){
 
-           results.save(result);
+        if(optional.isPresent()){
+            ResultEntity temp = optional.get();
+            temp.setStatus(result.getStatus());
 
-           return "success" ;
-       }
-       else {
-           return "fail" ;
-       }
+            results.save(temp);
 
 
+        }
+        else {
 
+        }
+    }
+    @GetMapping("/api/result/{id}")
+    public Optional<ResultEntity> getStudentById(@PathVariable Integer id){
+        Optional<ResultEntity> optional = results.findById(id);
+        return optional;
     }
 //    @PostMapping("/api/result")
 //    public List<ResultEntity> saveResult( ResultEntity resultEntity) {
