@@ -1,5 +1,6 @@
 package com.management.student.profile.studentList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,7 @@ public class StudentProfileConfig {
     List<StudentProfile> StudentProfiles = new ArrayList<>();
 
     @Bean
+    @Autowired
     CommandLineRunner commandLineRunner(
             StudentProfileRepository profileRepository
     ){
