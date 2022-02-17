@@ -134,9 +134,9 @@ class ResultTests {
 		Mockito.when(resultRepository.save(Add)).thenReturn(Add);
 
 		String rightstr = "ok add done";
-		String getStr = resultController.saveResult(Add);
+		ResultEntity res= resultController.saveResult(Add);
 
-		assertEquals(rightstr,getStr);
+		assertEquals(Add,res);
 
 		ResultEntity  nullAdd =  new ResultEntity();
 		nullAdd.setId(2);

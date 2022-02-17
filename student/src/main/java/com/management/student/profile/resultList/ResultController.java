@@ -20,14 +20,14 @@ public class ResultController {
     }
 
     @PostMapping("/api/result")
-    public String saveResult (@RequestBody ResultEntity result) throws ResultException{
+    public ResultEntity saveResult (@RequestBody ResultEntity result) throws ResultException{
         if(result.getStatus()==null){
             throw new ResultException(
                     "Status cant be null");
         }
         else{
             results.save(result);
-            return "ok add done";
+            return result;
         }
 
     }
