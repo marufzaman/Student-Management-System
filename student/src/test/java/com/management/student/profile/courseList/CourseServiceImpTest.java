@@ -114,7 +114,7 @@ class CourseServiceImpTest {
         CourseEntity outputEntity = new CourseEntity();
         courseServiceImp.createCourse(inputCourseEntity);
 
-
+git
 
 
         //Mockito.when(courseRepository.findById(1L)).thenReturn(Optional.of(inputCourseEntity));
