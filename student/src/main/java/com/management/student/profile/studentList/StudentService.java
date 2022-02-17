@@ -1,7 +1,5 @@
 package com.management.student.profile.studentList;
-
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
@@ -16,15 +14,25 @@ public class StudentService {
 		this.studentProfileRepository = studentProfileRepository;
 	}
 
-	public List<StudentProfile> getStudentProfiles(){
+	public List<StudentProfile> getStudentProfiles() throws Exception{
+		if(studentProfileRepository == null){
+			throw new Exception(
+					"Database Empty."
+			);
+		}
 		return studentProfileRepository.findAll();
 	}
 
-	public Optional<StudentProfile> getStudent(Long studentID){
+	public Optional<StudentProfile> getStudent(Long studentID) throws Exception{
+		if(!(studentProfileRepository.existsById(studentID))){
+			throw new Exception(
+					"Record doesn't exists!"
+			);
+		}
 		return studentProfileRepository.findById(studentID);
 	}
 
-	public void addNewStudent(StudentProfile studentProfile){
+	public void addNewStudent(StudentProfile studentProfile) throws Exception{
 		Optional<StudentProfile> findStudentProfile =
 				studentProfileRepository.findStudentProfile(
 						studentProfile.getName(),
@@ -32,28 +40,28 @@ public class StudentService {
 				);
 
 		if (findStudentProfile.isPresent()){
-			 throw new IllegalStateException(
+			 throw new Exception(
 					 "Profile: "+studentProfile.getName()
-					 +", Already Exist! Try Another One!"
+					 +", Exists Already!"
 			 );
 		}
 		studentProfileRepository.save(studentProfile);
 	}
 
-	public void deleteStudentProfile(Long studentID){
+	public void deleteStudentProfile(Long studentID) throws Exception{
 		if(!(studentProfileRepository.existsById(studentID))){
-			throw new IllegalStateException(
-					"Record for the student doesn't exists. Probably removed by a user."
+			throw new Exception(
+					"Record doesn't exists."
 			);
 		}
 		studentProfileRepository.deleteById(studentID);
 	}
 
 	@Transactional
-	public void editStudentProfile(Long studentID, String name, String gender) {
+	public void editStudentProfile(Long studentID, String name, String gender) throws Exception{
 		StudentProfile studentProfile =  studentProfileRepository.findById(studentID)
-				.orElseThrow(() -> new IllegalStateException(
-						"Record for the student doesn't exists. Probably removed by a user."
+				.orElseThrow(() -> new Exception(
+						"Record doesn't exists."
 				));
 
 		if (name != null && name.length() > 0 &&
