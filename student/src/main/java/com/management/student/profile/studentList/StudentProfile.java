@@ -1,6 +1,8 @@
 package com.management.student.profile.studentList;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity(name = "StudentProfile")
 @Table(name = "student_profile")
@@ -27,6 +29,8 @@ public class StudentProfile {
             nullable = false,
             columnDefinition = "TEXT"
     )
+    @NotNull(message = "Name must not be null.")
+    @NotBlank(message = "Name must not be Blank.")
     private String name;
 
     @Column(
@@ -34,6 +38,8 @@ public class StudentProfile {
             nullable = false,
             columnDefinition = "VARCHAR(6)"
     )
+    @NotNull(message = "Gender must not be null.")
+    @NotBlank(message = "Gender must not be Blank.")
     private String gender;
 
     public StudentProfile() {

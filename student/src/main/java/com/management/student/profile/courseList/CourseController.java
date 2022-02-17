@@ -2,6 +2,8 @@ package com.management.student.profile.courseList;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,26 +33,44 @@ public class CourseController {
 
     // update course
     @PutMapping(path = "{courseID}")
-    public String updateStudent(@PathVariable Long courseID, @RequestBody CourseEntity courseEntity) {
+    public void updateCourse(@PathVariable Long courseID, @RequestBody CourseEntity courseEntity) {
+
 
         // get course from database by id
-        CourseEntity existingCourse = courseService.getCourseById(courseID);
-        existingCourse.setCourseName(courseEntity.getCourseName());
 
-        courseService.updateCourse(existingCourse);
-        return "course updated";
+        CourseEntity existingCourse = courseService.getCourseById(courseID);
+        //existingCourse.setCourseName(courseEntity.getCourseName());
+
+        // New Code
+        CourseEntity temp = existingCourse;
+        temp.setCourseName(courseEntity.getCourseName());
+
+        courseService.updateCourse(temp);
+        //return "course updated";
 
     }
 
     // delete course
     @DeleteMapping(path = "{courseID}")
-    public String deleteStudent(@PathVariable Long courseID) {
+    public ResponseEntity deleteCourse(@PathVariable Long courseID) {
 
         // get student from database by courseId
 
 
+
         courseService.deleteCourse(courseID);
-        return "course deleted";
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+
+    @GetMapping(path = "{courseID}")
+    public CourseEntity getCourseById(@PathVariable Long courseID) {
+
+        // get course from database by id
+        return courseService.getCourseById(courseID);
+
 
     }
+
+
 }
