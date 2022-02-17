@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
@@ -126,15 +127,24 @@ class ResultTests {
 	}
 
 	@Test
-	public void addTest(){
+	public void addTest()throws ResultException{
 		ResultEntity  Add =  new ResultEntity();
 		Add.setId(1);
 		Add.setStatus("pass");
 		Mockito.when(resultRepository.save(Add)).thenReturn(Add);
 
-		ResultEntity newResult = resultController.saveResult(Add);
+		String rightstr = "ok add done";
+		String getStr = resultController.saveResult(Add);
 
-		assertEquals(Add,newResult);
+		assertEquals(rightstr,getStr);
+
+		ResultEntity  nullAdd =  new ResultEntity();
+		nullAdd.setId(2);
+		nullAdd.setStatus(null);
+
+		Assertions.assertThrows(ResultException.class, () -> {
+			resultController.saveResult(nullAdd);
+		});
 
 
 	}
