@@ -1,7 +1,6 @@
 package com.management.student.profile.studentList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,8 +29,8 @@ public class StudentProfileController {
 	}
 
 	@PostMapping
-	public void addNewStudentProfile(@Valid @RequestBody StudentProfile studentProfile){
-		studentService.addNewStudent(studentProfile);
+	public StudentProfile addNewStudentProfile(@Valid @RequestBody StudentProfile studentProfile){
+		return studentService.addNewStudent(studentProfile);
 	}
 
 	@DeleteMapping(path = "{studentID}")
@@ -40,12 +39,12 @@ public class StudentProfileController {
 	}
 
 	@PutMapping(path = "{studentID}")
-	public void editStudentProfile(
+	public StudentProfile editStudentProfile(
 			@Valid
 			@PathVariable("studentID") Long studentID,
 			@RequestParam(required = false) String name,
 			@RequestParam(required = false) String gender
 	) throws Exception {
-		studentService.editStudentProfile(studentID, name, gender);
+		return studentService.editStudentProfile(studentID, name, gender);
 	}
 }

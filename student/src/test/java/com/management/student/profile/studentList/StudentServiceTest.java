@@ -54,7 +54,9 @@ class StudentServiceTest {
     @Test
     void addNewStudent(){
         StudentProfile mock = new StudentProfile("ABC", "Other");
-        studentProfileRepository.save(mock);
+        Mockito.when(studentProfileRepository.save(mock)).thenReturn(mock);
+        StudentProfile expected = studentService.addNewStudent(mock);
+        assertEquals(expected, mock);
     }
 
     @Test
@@ -81,22 +83,18 @@ class StudentServiceTest {
 
         Mockito.when(studentProfileRepository.findById(studentID)).thenReturn(Optional.of(studentProfile));
 
-        if (studentName != null && studentName.length() > 0 &&
-                !Objects.equals(studentProfile.getName(), studentName)){
-            studentProfile.setName(studentName);
-        }
+        StudentProfile updateStudentProfile = studentService.editStudentProfile(studentID, studentName, studentGender);
 
-        if (studentGender != null && studentGender.length() > 0 &&
-                !Objects.equals(studentProfile.getGender(), studentGender)){
-            studentProfile.setGender(studentGender);
-        }
+        assertEquals(updateStudentProfile.getName(), studentName);
 
-        assertEquals(studentProfile.getName(), studentName);
-        assertEquals(studentProfile.getGender(), studentGender);
+        studentGender = "Male";
+        updateStudentProfile = studentService.editStudentProfile(studentID, studentName, studentGender);
 
+        assertEquals(updateStudentProfile.getGender(), studentGender);
+
+        Long finalStudentID = ++studentID;
         assertThrows(Exception.class, ()->{
-            studentService.editStudentProfile(2L, "", "");
+            studentService.editStudentProfile(finalStudentID, studentName, studentName);
         });
-
     }
 }

@@ -27,8 +27,8 @@ public class StudentService {
 		return studentProfileRepository.findById(studentID);
 	}
 
-	public void addNewStudent(StudentProfile studentProfile){
-		studentProfileRepository.save(studentProfile);
+	public StudentProfile addNewStudent(StudentProfile studentProfile){
+		return studentProfileRepository.save(studentProfile);
 	}
 
 	public void deleteStudentProfile(Long studentID) throws Exception{
@@ -41,20 +41,24 @@ public class StudentService {
 	}
 
 	@Transactional
-	public void editStudentProfile(Long studentID, String name, String gender) throws Exception{
-		StudentProfile studentProfile =  studentProfileRepository.findById(studentID)
+	public StudentProfile editStudentProfile(Long studentID, String name, String gender) throws Exception{
+		StudentProfile studentProfile
+				= studentProfileRepository.findById(studentID)
 				.orElseThrow(() -> new Exception(
 						"Record doesn't exists."
 				));
 
-		if (name != null && name.length() > 0 &&
-				!Objects.equals(studentProfile.getName(), name)){
+		if (!Objects.equals(studentProfile.getName(), name)){
 			studentProfile.setName(name);
 		}
 
-		if (gender != null && gender.length() > 0 &&
-				!Objects.equals(studentProfile.getGender(), gender)){
+		if (!Objects.equals(studentProfile.getGender(), gender)){
 			studentProfile.setGender(gender);
 		}
+		studentProfileRepository.save(studentProfile);
+
+		return studentProfile;
 	}
+
+
 }
