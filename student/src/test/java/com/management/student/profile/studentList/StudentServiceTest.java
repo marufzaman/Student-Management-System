@@ -17,6 +17,7 @@ class StudentServiceTest {
 
     @Mock
     private StudentProfileRepository studentProfileRepository;
+
     @InjectMocks
     private StudentService studentService;
 
