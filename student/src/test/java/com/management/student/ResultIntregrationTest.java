@@ -48,19 +48,19 @@ public class ResultIntregrationTest {
     public void getAllTest() throws Exception {
 
 
-//        HttpHeaders httpHeaders =  new HttpHeaders();
-//        HttpEntity<String> httpEntity  =  new HttpEntity<String>(null,httpHeaders);
-//        ResponseEntity<String> responseEntity = restTemplate.exchange(getUrl() ,
-//                HttpMethod.GET, httpEntity, String.class);
-//        assertNotNull(responseEntity.getBody());
+        HttpHeaders httpHeaders =  new HttpHeaders();
+        HttpEntity<String> httpEntity  =  new HttpEntity<String>(null,httpHeaders);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(getUrl() ,
+                HttpMethod.GET, httpEntity, String.class);
+        assertNotNull(responseEntity.getBody());
 
-        MvcResult mvcResult = mockMvc.perform(get(getUrl()))
-                .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.ResultEntity").value("Hello World!!!"))
-                .andReturn();
-
-       assertEquals("application/json;charset=UTF-8",
-                mvcResult.getResponse().getContentType());
+//        MvcResult mvcResult = mockMvc.perform(get(getUrl()))
+//                .andDo(print()).andExpect(status().isOk())
+//                .andExpect(jsonPath("$.ResultEntity").value("Hello World!!!"))
+//                .andReturn();
+//
+//       assertEquals("application/json;charset=UTF-8",
+//                mvcResult.getResponse().getContentType());
 
     }
 }

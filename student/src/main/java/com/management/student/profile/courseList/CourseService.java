@@ -17,7 +17,7 @@ public interface CourseService {
     CourseEntity getCourseById(Long id);
 
     // update course
-    CourseEntity updateCourse(CourseEntity courseEntity);
+    CourseEntity updateCourse(CourseEntity courseEntity) throws Exception;
 
     // delete course
     void deleteCourse(Long id);
