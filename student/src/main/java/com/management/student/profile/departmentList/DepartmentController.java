@@ -23,22 +23,30 @@ public class DepartmentController {
     }
 
     @GetMapping("/api/department/{id}")
-    public Optional<DepartmentEntity> getDepartment(@PathVariable Integer id){
-        return repo.findById(id);
+    public DepartmentEntity getDepartment(@PathVariable Integer id) throws Exception {
+
+        Optional<DepartmentEntity> department = repo.findById(id);
+
+        if(department.isPresent()==false){
+             throw new IllegalStateException("Department Not Found");
+        }
+        DepartmentEntity dept = department.get();
+
+        return dept;
     }
 
     @PostMapping ("/api/department")
-    public DepartmentEntity createDepartments(@RequestBody DepartmentEntity department){
+    public DepartmentEntity createDepartment(@RequestBody DepartmentEntity department){
         repo.save(department);
         return department;
     }
 
     @DeleteMapping ("/api/department/{id}")
-    public ResponseEntity deleteDepartments(@PathVariable Integer id){
-        Optional<DepartmentEntity> dept = repo.findById(id);
+    public ResponseEntity deleteDepartment(@PathVariable Integer id) throws Exception {
+        Optional<DepartmentEntity> department = repo.findById(id);
 
-        if(!dept.isPresent()){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(department.isPresent()==false){
+            throw new Exception("Department not found");
         }
 
         repo.deleteById(id);
@@ -46,15 +54,20 @@ public class DepartmentController {
     }
 
     @PutMapping ("/api/department/{id}")
-    public ResponseEntity deleteDepartments(@PathVariable Integer id, @RequestBody DepartmentEntity department){
-        Optional<DepartmentEntity> dept = repo.findById(id);
+    public DepartmentEntity updateDepartment(@PathVariable Integer id, @RequestBody DepartmentEntity department) throws Exception {
+        Optional<DepartmentEntity> previousDepartment = repo.findById(id);
 
-        if(!dept.isPresent()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if(previousDepartment.isPresent()==false){
+            throw new Exception("Department not found");
         }
-        repo.save(department);
 
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        DepartmentEntity updatedDepartment = previousDepartment.get();
+        updatedDepartment.setId(department.getId());
+        updatedDepartment.setName(department.getName());
+
+        repo.save(updatedDepartment);
+
+        return updatedDepartment;
     }
 
 

@@ -24,27 +24,48 @@ public class ResultController {
         results.save(result);
         return result;
     }
-  @DeleteMapping("/api/result/{id}")
-  public List<ResultEntity> DeleteResult(@PathVariable Integer id) {
-        results.deleteById(id);
-      return (List<ResultEntity>) results.findAll();
-  }
+
+    @DeleteMapping("/api/result/{id}")
+    public Integer  DeleteResult(@PathVariable Integer id) throws ResultException {
+        if (results.findById(id).isPresent()) {
+            results.deleteById(id);
+            return id;
+        } else {
+            throw new ResultException(
+                    "Could not find student with ID " + id);
+
+        }
+
+    }
+
     @PutMapping("/api/result/{id}")
-    public String UpdateResult(@PathVariable Integer id,@RequestBody ResultEntity result) {
+    public ResultEntity UpdateResult(@PathVariable Integer id, @RequestBody ResultEntity result) throws ResultException {
 
         Optional<ResultEntity> optional = results.findById(id);
+        ResultEntity temp;
+        if (optional.isPresent()) {
+            temp = optional.get();
+            temp.setStatus(result.getStatus());
 
-       if(optional.isPresent()){
+            results.save(temp);
+            return temp;
 
-           results.save(result);
+        } else {
+            throw new ResultException(
+                    "Could not find student with ID " + id);
+        }
 
-           return "success" ;
-       }
-       else {
-           return "fail" ;
-       }
+    }
 
-
+    @GetMapping("/api/result/{id}")
+    public Optional<ResultEntity> getStudentById(@PathVariable Integer id) throws ResultException {
+        if (results.findById(id).isPresent()) {
+            Optional<ResultEntity> optional = results.findById(id);
+            return optional;
+        } else {
+            throw new ResultException(
+                    "Could not find student with ID " + id);
+        }
 
     }
 //    @PostMapping("/api/result")

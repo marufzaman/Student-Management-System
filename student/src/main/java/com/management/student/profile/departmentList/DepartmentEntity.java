@@ -11,7 +11,7 @@ import javax.persistence.Table;
 public class DepartmentEntity {
 
     @Id
-    public int id;
+    public Integer id;
     public String name;
 
 
