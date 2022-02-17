@@ -14,47 +14,68 @@ public class DepartmentController {
 
     @Autowired
     public DepartmentRepository repo;
+    public final DepartmentServices departmentServices;
 
     List<String> departments = new ArrayList<>();
 
+    public DepartmentController(DepartmentServices departmentServices) {
+        this.departmentServices = departmentServices;
+    }
+
     @GetMapping("/api/department")
     public List<DepartmentEntity> getDepartments(){
-        return (List<DepartmentEntity>) repo.findAll();
+//        return (List<DepartmentEntity>) repo.findAll();
+        return departmentServices.getDepartments();
     }
 
     @GetMapping("/api/department/{id}")
-    public Optional<DepartmentEntity> getDepartment(@PathVariable Integer id){
-        return repo.findById(id);
+    public DepartmentEntity getDepartment(@PathVariable Integer id) throws Exception {
+
+//        Optional<DepartmentEntity> department = repo.findById(id);
+//
+//        if(department.isPresent()==false){
+//             throw new IllegalStateException("Department Not Found");
+//        }
+//        DepartmentEntity dept = department.get();
+//
+//        return dept;
+
+        return departmentServices.getDepartmentById(id);
     }
 
     @PostMapping ("/api/department")
-    public DepartmentEntity createDepartments(@RequestBody DepartmentEntity department){
-        repo.save(department);
-        return department;
+    public DepartmentEntity createDepartment(@RequestBody DepartmentEntity department){
+//        repo.save(department);
+        return departmentServices.createDepartment(department);
     }
 
     @DeleteMapping ("/api/department/{id}")
-    public ResponseEntity deleteDepartments(@PathVariable Integer id){
-        Optional<DepartmentEntity> dept = repo.findById(id);
-
-        if(!dept.isPresent()){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        repo.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    public ResponseEntity deleteDepartment(@PathVariable Integer id) throws Exception {
+//        Optional<DepartmentEntity> department = repo.findById(id);
+//
+//        if(department.isPresent()==false){
+//            throw new Exception("Department not found");
+//        }
+//
+//        repo.deleteById(id);
+        return departmentServices.deleteDepartment(id);
     }
 
     @PutMapping ("/api/department/{id}")
-    public ResponseEntity deleteDepartments(@PathVariable Integer id, @RequestBody DepartmentEntity department){
-        Optional<DepartmentEntity> dept = repo.findById(id);
-
-        if(!dept.isPresent()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        repo.save(department);
-
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    public DepartmentEntity updateDepartment(@PathVariable Integer id, @RequestBody DepartmentEntity department) throws Exception {
+//        Optional<DepartmentEntity> previousDepartment = repo.findById(id);
+//
+//        if(previousDepartment.isPresent()==false){
+//            throw new Exception("Department not found");
+//        }
+//
+//        DepartmentEntity updatedDepartment = previousDepartment.get();
+//        updatedDepartment.setId(department.getId());
+//        updatedDepartment.setName(department.getName());
+//
+//        repo.save(updatedDepartment);
+//
+        return departmentServices.updateDepartment(id, department);
     }
 
 

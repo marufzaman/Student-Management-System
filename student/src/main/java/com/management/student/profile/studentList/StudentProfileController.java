@@ -3,6 +3,7 @@ package com.management.student.profile.studentList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,26 +24,27 @@ public class StudentProfileController {
 	}
 
 	@GetMapping(path = "{studentID}")
-	public Optional<StudentProfile> getStudent(@PathVariable("studentID") Long studentID){
+	public Optional<StudentProfile> getStudent(@PathVariable("studentID") Long studentID) throws Exception {
 		return studentService.getStudent(studentID);
 	}
 
 	@PostMapping
-	public void addNewStudentProfile(@RequestBody StudentProfile studentProfile){
-		studentService.addNewStudent(studentProfile);
+	public StudentProfile addNewStudentProfile(@Valid @RequestBody StudentProfile studentProfile){
+		return studentService.addNewStudent(studentProfile);
 	}
 
 	@DeleteMapping(path = "{studentID}")
-	public void deleteStudentProfile(@PathVariable("studentID") Long studentID){
+	public void deleteStudentProfile(@PathVariable("studentID") Long studentID) throws Exception {
 		studentService.deleteStudentProfile(studentID);
 	}
 
 	@PutMapping(path = "{studentID}")
-	public void editStudentProfile(
+	public StudentProfile editStudentProfile(
+			@Valid
 			@PathVariable("studentID") Long studentID,
 			@RequestParam(required = false) String name,
 			@RequestParam(required = false) String gender
-	){
-		studentService.editStudentProfile(studentID, name, gender);
+	) throws Exception {
+		return studentService.editStudentProfile(studentID, name, gender);
 	}
 }
