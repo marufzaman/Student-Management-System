@@ -15,6 +15,8 @@ public class CourseController {
 
     @Autowired
     CourseService courseService;
+
+
     // get all courses
     @GetMapping
     public List<CourseEntity> getAllCourses() {
@@ -33,11 +35,12 @@ public class CourseController {
 
     // update course
     @PutMapping(path = "{courseID}")
-    public void updateCourse(@PathVariable Long courseID, @RequestBody CourseEntity courseEntity) {
+    public CourseEntity updateCourse(@PathVariable Long courseID, @RequestBody CourseEntity courseEntity) throws Exception {
+
+
 
 
         // get course from database by id
-
         CourseEntity existingCourse = courseService.getCourseById(courseID);
         //existingCourse.setCourseName(courseEntity.getCourseName());
 
@@ -45,7 +48,7 @@ public class CourseController {
         CourseEntity temp = existingCourse;
         temp.setCourseName(courseEntity.getCourseName());
 
-        courseService.updateCourse(temp);
+        return courseService.updateCourse(temp);
         //return "course updated";
 
     }

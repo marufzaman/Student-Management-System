@@ -34,6 +34,12 @@ public class CourseEntity {
     public CourseEntity() {
     }
 
+
+    public CourseEntity(Long courseId, String courseName) {
+        this.courseId = courseId;
+        this.courseName = courseName;
+    }
+
     public CourseEntity(String courseName) {
         this.courseName = courseName;
     }
