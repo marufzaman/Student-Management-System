@@ -19,6 +19,10 @@ class DepartmentControllerTest {
     @Mock
     private DepartmentRepository departmentRepository;
 
+    private DepartmentRepository departmentRepositoryOriginal;
+
+    private String baseUrl = "http://localhost:8080/api/department";
+
     @InjectMocks
     private DepartmentServices departmentServices;
 
