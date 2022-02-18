@@ -20,7 +20,7 @@ class DepartmentControllerTest {
     private DepartmentRepository departmentRepository;
 
     @InjectMocks
-    private DepartmentController departmentController;
+    private DepartmentServices departmentServices;
 
     @Test
     void getDepartmentById() throws Exception {
@@ -29,12 +29,12 @@ class DepartmentControllerTest {
         input.setName("CSE");
 
         Mockito.when(departmentRepository.findById(1)).thenReturn(Optional.of(input));
-        DepartmentEntity output = departmentController.getDepartment(1);
+        DepartmentEntity output = departmentServices.getDepartmentById(1);
 
         assertEquals(input, output);
 
         assertThrows(Exception.class, ()-> {
-            departmentController.getDepartment(2);
+            departmentServices.getDepartmentById(2);
         });
 
     }
@@ -50,7 +50,7 @@ class DepartmentControllerTest {
 
         Mockito.when(departmentRepository.findAll()).thenReturn(departments);
 
-        List<DepartmentEntity> allDepartments = departmentController.getDepartments();
+        List<DepartmentEntity> allDepartments = departmentServices.getDepartments();
 
         assertEquals(departments,allDepartments);
     }
@@ -67,7 +67,7 @@ class DepartmentControllerTest {
         createdDepartment.setName("CSE");
 
         Mockito.when(departmentRepository.save(input)).thenReturn(createdDepartment);
-        DepartmentEntity output = departmentController.createDepartment(input);
+        DepartmentEntity output = departmentServices.createDepartment(input);
 
         assertEquals(input,output);
 
@@ -85,12 +85,12 @@ class DepartmentControllerTest {
         updateBody.setId(1);
         updateBody.setName("EEE");
 
-        DepartmentEntity updatedDepartment = departmentController.updateDepartment(department.id, updateBody);
+        DepartmentEntity updatedDepartment = departmentServices.updateDepartment(department.id, updateBody);
 
         assertEquals(updateBody.getName(),updatedDepartment.getName());
 
         assertThrows(Exception.class, ()->{
-            departmentController.updateDepartment(2,updateBody);
+            departmentServices.updateDepartment(2,updateBody);
         });
 
     }
