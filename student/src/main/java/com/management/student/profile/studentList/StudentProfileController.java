@@ -1,6 +1,7 @@
 package com.management.student.profile.studentList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,8 +25,12 @@ public class StudentProfileController {
 	}
 
 	@GetMapping(path = "{studentID}")
-	public Optional<StudentProfile> getStudent(@PathVariable("studentID") Long studentID) throws Exception {
-		return studentService.getStudent(studentID);
+	public ResponseEntity<StudentProfile> getStudent(@PathVariable("studentID") Long studentID) throws Exception {
+		try{
+			return ResponseEntity.ok(studentService.getStudent(studentID).orElseThrow(RuntimeException::new));
+		}catch (Exception e){
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@PostMapping

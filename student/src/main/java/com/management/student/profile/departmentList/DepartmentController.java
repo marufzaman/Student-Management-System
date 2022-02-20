@@ -41,6 +41,7 @@ public class DepartmentController {
 //        return dept;
 
         return departmentServices.getDepartmentById(id);
+//        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping ("/api/department")
