@@ -39,11 +39,22 @@ public class DepartmentApiTest {
 
     @Test
     void getAllDepartments() throws Exception {
+        DepartmentEntity department1 = new DepartmentEntity(1,"CSE");
+        DepartmentEntity department2 = new DepartmentEntity(2,"EEE");
+
+        departmentRepository.saveAndFlush(department1);
+        departmentRepository.saveAndFlush(department2);
+
         mockMvc.perform(
                         MockMvcRequestBuilders
                                 .get(baseUrl)
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.[0].id").value(1))
+                .andExpect(jsonPath("$.[0].name").value("CSE"))
+                .andExpect(jsonPath("$.[1].id").value(2))
+                .andExpect(jsonPath("$.[1].name").value("EEE"))
                 .andReturn();
     }
 
@@ -53,7 +64,7 @@ public class DepartmentApiTest {
         DepartmentEntity department = new DepartmentEntity();
         department.setId(1);
         department.setName("BBA");
-        departmentRepository.save(department);
+        departmentRepository.saveAndFlush(department);
 
 
         mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"1")
@@ -83,7 +94,7 @@ public class DepartmentApiTest {
         //Previous
         DepartmentEntity department = new DepartmentEntity(20, "CSE");
 
-        departmentRepository.save(department);
+        departmentRepository.saveAndFlush(department);
 
         //Updated
         DepartmentEntity updatedDepartment = new DepartmentEntity(20, "EEE");
