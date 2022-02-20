@@ -90,7 +90,7 @@ class StudentProfileControllerTest {
     void editStudentProfile() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders
-                        .put(baseURL+"/{id}", "1?name=DEF JFK&gender=Male"))
+                        .put(baseURL+"/{id}?name={name}&gender={gender}", 1, "DEF JFK", "Male"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.name").value("DEF JFK"))
