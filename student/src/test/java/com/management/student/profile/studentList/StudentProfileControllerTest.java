@@ -20,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class StudentProfileControllerTest {
+
     private String baseURL = "http://localhost:8080/api/v1/students";
     private static final ObjectMapper MAPPER = new JsonMapper();
 
