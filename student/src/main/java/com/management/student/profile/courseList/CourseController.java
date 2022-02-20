@@ -17,6 +17,10 @@ public class CourseController {
     CourseService courseService;
 
 
+    public CourseController(CourseService courseService) {
+        this.courseService = courseService;
+    }
+
     // get all courses
     @GetMapping
     public List<CourseEntity> getAllCourses() {

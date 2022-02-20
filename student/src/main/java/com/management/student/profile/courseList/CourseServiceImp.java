@@ -21,20 +21,17 @@ public class CourseServiceImp  implements  CourseService{
 
     @Override
     public List<CourseEntity> getAllCourses() {
-
-            return courseRepository.findAll();
-
-
+        return courseRepository.findAll();
     }
 
     @Override
     public CourseEntity createCourse(CourseEntity courseEntity) {
-
-        if(!courseEntity.getCourseName().isEmpty()){
+        return courseRepository.save(courseEntity);
+        /*if(!courseEntity.getCourseName().isEmpty()){
             return courseRepository.save(courseEntity);
         }else{
             throw  new RuntimeException("Course Name should not be null!");
-        }
+        }*/
 
     }
 
@@ -73,12 +70,12 @@ public class CourseServiceImp  implements  CourseService{
 
     @Override
     public void deleteCourse(Long courseId) {
-
-        if (courseRepository.findById(courseId).isPresent()){
+        courseRepository.deleteById(courseId);
+       /* if (courseRepository.findById(courseId).isPresent()){
             courseRepository.deleteById(courseId);
         }else {
             throw new RuntimeException("courseId not found!");
-        }
+        }*/
 
     }
 

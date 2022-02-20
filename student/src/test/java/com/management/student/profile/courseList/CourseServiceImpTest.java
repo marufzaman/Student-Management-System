@@ -23,8 +23,7 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -54,7 +53,6 @@ class CourseServiceImpTest {
     @Test
     void getAllCourses() {
         //when
-
         List<CourseEntity> courseEntityList = new ArrayList<>();
         CourseEntity courseEntity = new CourseEntity("Spring Boot)");
         CourseEntity courseEntity1 = new CourseEntity("Spring )");
@@ -65,7 +63,7 @@ class CourseServiceImpTest {
 
         List<CourseEntity> responseCourseEntityList = courseServiceImp.getAllCourses();
         //then
-       assertThat(courseEntityList).isEqualTo(responseCourseEntityList);
+        assertThat(courseEntityList.size()).isEqualTo(responseCourseEntityList.size());
 
     }
 
@@ -75,60 +73,30 @@ class CourseServiceImpTest {
     void createCourse() {
         //when
         CourseEntity courseEntity = new CourseEntity("Spring Boot)");
-        courseServiceImp.createCourse(courseEntity);
-
-
-        //then
-        ArgumentCaptor <CourseEntity> courseEntityArgumentCaptor =
-                ArgumentCaptor.forClass(CourseEntity.class);
-        verify(courseRepository).save(courseEntityArgumentCaptor.capture());
-
-        CourseEntity courseEntityCapture = courseEntityArgumentCaptor.getValue();
-        assertThat(courseEntityCapture).isEqualTo(courseEntity);
+        Mockito.when(courseRepository.save(courseEntity)).thenReturn(courseEntity);
+        CourseEntity outputCourseEntity = courseServiceImp.createCourse(courseEntity);
+        assertEquals(courseEntity,outputCourseEntity);
     }
 
     @Test
     void getCourseById() throws Exception {
 
-
-
-
         CourseEntity courseEntity = new CourseEntity("CSE");
-
-        //when
-
         Mockito.when(courseRepository.findById(courseEntity.getCourseId())).thenReturn(Optional.of(courseEntity));
         CourseEntity outCourseEntity = courseServiceImp.getCourseById(courseEntity.getCourseId());
-
-        //assertThat(courseEntity,outCourseEntity);
-        //verify(courseRepository).findById(1L).get();
-        assertThat(courseEntity).isEqualTo(outCourseEntity);
+        System.out.println(courseEntity.getCourseId());
+        assertEquals(courseEntity.getCourseId(),outCourseEntity.getCourseId());
 
     }
 
     @Test
     void updateCourse() throws Exception {
         //when
-       /* CourseEntity inputCourseEntity = new CourseEntity(1L,"Spring Boot");
-        CourseEntity outputCourseEntity = new CourseEntity(1L,"Boot");
-        CourseEntity outputEntity = new CourseEntity();
-        courseServiceImp.createCourse(inputCourseEntity);
-
-git
-
-
-        //Mockito.when(courseRepository.findById(1L)).thenReturn(Optional.of(inputCourseEntity));
-        courseServiceImp.createCourse(inputCourseEntity);
-        Mockito.when(courseServiceImp.updateCourse(inputCourseEntity)).thenReturn(outputEntity);
-       // outputEntity.setCourseName(courseServiceImp.updateCourse(outputCourseEntity).getCourseName());
-        //assertThat(courseEntity).isEqualTo(expectedCourseEntity);
-        assertEquals(inputCourseEntity.getCourseName(),outputEntity.getCourseName());
-*/
-         //assertEquals(courseEntity.getCourseName(),expectedCourseEntity.getCourseName());
-       /*Assertions.assertThrows(Exception.class, ()->{
-            courseServiceImp.updateCourse(courseEntity);
-        });*/
-        //then
+        CourseEntity courseEntity = new CourseEntity(1L,"Spring Boot)");
+        Mockito.when(courseRepository.findById(courseEntity.getCourseId())).thenReturn(Optional.of(courseEntity));
+        Mockito.when(courseRepository.save(courseEntity)).thenReturn(courseEntity);
+        CourseEntity outputCourseEntity = courseServiceImp.updateCourse(courseEntity);
+        assertEquals(courseEntity,outputCourseEntity);
 
     }
 
@@ -136,13 +104,7 @@ git
     void deleteCourse() {
         //when
         CourseEntity courseEntity = new CourseEntity(1L,"Spring Boot)");
-
-
-
-        Mockito.when(courseRepository.findById(courseEntity.getCourseId())).thenReturn(Optional.of(courseEntity));
         courseServiceImp.deleteCourse(courseEntity.getCourseId());
-        //then
-
-        verify(courseRepository).deleteById(courseEntity.getCourseId());
+        verify(courseRepository,times(1)).deleteById(courseEntity.getCourseId());
     }
 }
