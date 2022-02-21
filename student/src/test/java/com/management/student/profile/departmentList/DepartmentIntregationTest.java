@@ -22,12 +22,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class DepartmentIntregationTest {
 
-    private String baseUrl = "http://localhost:8080/api/department";
+    private String baseUrl = "http://localhost:8080/api/department/1";
     private static final ObjectMapper MAPPER = new JsonMapper();
 
     @Autowired
@@ -52,7 +53,7 @@ public class DepartmentIntregationTest {
 
         mockMvc.perform(
                 MockMvcRequestBuilders
-                .get("http://localhost:8080/api/department")
+                .get("http://localhost:8080/api/department/1")
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
