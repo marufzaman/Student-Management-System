@@ -59,6 +59,6 @@ public class DepartmentServices {
         }
 
         departmentRepository.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
