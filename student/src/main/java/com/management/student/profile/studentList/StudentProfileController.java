@@ -24,7 +24,7 @@ public class StudentProfileController {
 	}
 
 	@GetMapping(path = "{studentID}")
-	public ResponseEntity<StudentProfile> getStudent(@PathVariable("studentID") Long studentID) throws Exception {
+	public ResponseEntity<StudentProfile> getStudent(@PathVariable("studentID") Long studentID) {
 		try{
 			return ResponseEntity.ok(studentService.getStudent(studentID).orElseThrow(RuntimeException::new));
 		}catch (Exception e){
@@ -33,22 +33,33 @@ public class StudentProfileController {
 	}
 
 	@PostMapping
-	public StudentProfile addNewStudentProfile(@Valid @RequestBody StudentProfile studentProfile){
-		return studentService.addNewStudent(studentProfile);
+	public ResponseEntity<StudentProfile> addNewStudentProfile(@Valid @RequestBody StudentProfile studentProfile){
+		try{
+			return ResponseEntity.ok(studentService.addNewStudent(studentProfile));
+		}catch (Exception e){
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@DeleteMapping(path = "{studentID}")
-	public void deleteStudentProfile(@PathVariable("studentID") Long studentID) throws Exception {
-		studentService.deleteStudentProfile(studentID);
+	public ResponseEntity<Object> deleteStudentProfile(@PathVariable("studentID") Long studentID) throws Exception {
+		try{
+			return ResponseEntity.ok(studentService.deleteStudentProfile(studentID));
+		}catch (Exception e){
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@PutMapping(path = "{studentID}")
-	public StudentProfile editStudentProfile(
+	public  ResponseEntity<StudentProfile> editStudentProfile(
 			@Valid
 			@PathVariable("studentID") Long studentID,
-			@RequestParam(required = false) String name,
-			@RequestParam(required = false) String gender
-	) throws Exception {
-		return studentService.editStudentProfile(studentID, name, gender);
+			@RequestBody(required = false) StudentProfile newInfo
+	) {
+		try{
+			return ResponseEntity.ok(studentService.editStudentProfile(studentID, newInfo));
+		}catch (Exception e){
+			return ResponseEntity.notFound().build();
+		}
 	}
 }

@@ -31,29 +31,30 @@ public class StudentService {
 		return studentProfileRepository.save(studentProfile);
 	}
 
-	public void deleteStudentProfile(Long studentID) throws Exception{
+	public Long deleteStudentProfile(Long studentID) throws Exception{
 		if(!(studentProfileRepository.existsById(studentID))){
 			throw new Exception(
 					"Record doesn't exists."
 			);
 		}
 		studentProfileRepository.deleteById(studentID);
+		return studentID;
 	}
 
 	@Transactional
-	public StudentProfile editStudentProfile(Long studentID, String name, String gender) throws Exception{
+	public StudentProfile editStudentProfile(Long studentID, StudentProfile newInfo) throws Exception{
 		StudentProfile studentProfile
 				= studentProfileRepository.findById(studentID)
 				.orElseThrow(() -> new Exception(
 						"Record doesn't exists."
 				));
 
-		if (!Objects.equals(studentProfile.getName(), name)){
-			studentProfile.setName(name);
+		if (!Objects.equals(studentProfile.getName(), newInfo.getName())){
+			studentProfile.setName(newInfo.getName());
 		}
 
-		if (!Objects.equals(studentProfile.getGender(), gender)){
-			studentProfile.setGender(gender);
+		if (!Objects.equals(studentProfile.getGender(), newInfo.getGender())){
+			studentProfile.setGender(newInfo.getGender());
 		}
 		studentProfileRepository.save(studentProfile);
 

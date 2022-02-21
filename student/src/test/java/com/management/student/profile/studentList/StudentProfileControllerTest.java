@@ -1,4 +1,5 @@
 package com.management.student.profile.studentList;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Test;
@@ -6,14 +7,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RunWith(SpringRunner.class)
@@ -21,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class StudentProfileControllerTest {
 
-    private String baseURL = "http://localhost:8080/api/v1/students";
+    private final String baseURL = "http://localhost:8080/api/v1/students";
     private static final ObjectMapper MAPPER = new JsonMapper();
 
     @Autowired
@@ -31,33 +29,40 @@ class StudentProfileControllerTest {
     void getStudentProfiles() throws Exception {
 //        StudentProfile s1 = new StudentProfile("ABC", "Other");
 
-        try{
-            mockMvc.perform(
+        // TESTING TO GET ALL of the LIST; even an empty LIST.
+        mockMvc.perform(
                 MockMvcRequestBuilders
                         .get(baseURL)
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(print());
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
     void getStudent() throws Exception {
+        // TESTING for available ID.
+        Long getID = 1L;
         mockMvc.perform(
-                    MockMvcRequestBuilders
-                            .get(baseURL+"/{id}", 100)
-                    )
-                    .andExpect(MockMvcResultMatchers.status().isNotFound());
+                MockMvcRequestBuilders
+                        .get(baseURL+"/{id}", getID)
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        // TESTING for unavailable ID.
+        getID = 1000L;
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .get(baseURL+"/{id}", getID)
+                )
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
 
     }
 
     @Test
     void addNewStudentProfile() throws Exception {
         StudentProfile s1 = new StudentProfile("ABC", "Other");
-        try{
-            mockMvc.perform(
+
+        mockMvc.perform(
                 MockMvcRequestBuilders
                         .post(baseURL)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -65,43 +70,58 @@ class StudentProfileControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(print())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.name").value("ABC"))
                 .andExpect(jsonPath("$.gender").value("Other"));
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
     }
 
     @Test
     void deleteStudentProfile() throws Exception {
-        try{
-            mockMvc.perform(
+        // TESTING for available ID.
+        Long deleteID = 1L;
+        mockMvc.perform(
                 MockMvcRequestBuilders
-                        .delete(baseURL+"/{id}", 1)
+                        .delete(baseURL+"/{id}", deleteID)
                 )
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(print());
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        // TESTING for unavailable ID.
+        deleteID = 1000L;
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .delete(baseURL+"/{id}", deleteID)
+                )
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
     @Test
     void editStudentProfile() throws Exception {
-        try{
-            mockMvc.perform(
+
+        StudentProfile newInfoToUpdate = new StudentProfile("DEF JFK", "Male");
+
+       // TESTING for available ID.
+        Long editID = 1L;
+        mockMvc.perform(
                 MockMvcRequestBuilders
-                        .put(baseURL+"/{id}?name={name}&gender={gender}"
-                                , 1, "DEF JFK", "Male"))
+                        .put(baseURL+"/{id}" , editID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(MAPPER.writeValueAsString(newInfoToUpdate))
+                        .accept(MediaType.APPLICATION_JSON)
+                )
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(print())
-                .andExpect(jsonPath("$.id", "$.name", "$.gender").value(1L))
+                .andExpect(jsonPath("$.id").value(editID))
                 .andExpect(jsonPath("$.name").value("DEF JFK"))
                 .andExpect(jsonPath("$.gender").value("Male"));
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+
+        // TESTING for unavailable ID.
+        editID = 1000L;
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .put(baseURL+"/{id}" , editID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(MAPPER.writeValueAsString(newInfoToUpdate))
+                        .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 }

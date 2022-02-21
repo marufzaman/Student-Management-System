@@ -80,21 +80,20 @@ class StudentServiceTest {
 
         String studentName = "ABCDEF";
         String studentGender = "Other";
+        StudentProfile newInfo = new StudentProfile(studentName, studentGender);
 
         Mockito.when(studentProfileRepository.findById(studentID)).thenReturn(Optional.of(studentProfile));
-
-        StudentProfile updateStudentProfile = studentService.editStudentProfile(studentID, studentName, studentGender);
-
+        StudentProfile updateStudentProfile = studentService.editStudentProfile(studentID, newInfo);
         assertEquals(updateStudentProfile.getName(), studentName);
 
         studentGender = "Male";
-        updateStudentProfile = studentService.editStudentProfile(studentID, studentName, studentGender);
-
+        newInfo.setGender("Male");
+        updateStudentProfile = studentService.editStudentProfile(studentID, newInfo);
         assertEquals(updateStudentProfile.getGender(), studentGender);
 
         Long finalStudentID = ++studentID;
         assertThrows(Exception.class, ()->{
-            studentService.editStudentProfile(finalStudentID, studentName, studentName);
+            studentService.editStudentProfile(finalStudentID, newInfo);
         });
     }
 }
