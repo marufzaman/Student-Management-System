@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.client.RestTemplate;
+import sun.awt.X11.XSystemTrayPeer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,6 +115,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
            .contentType(MediaType.APPLICATION_JSON)
    ).andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
 
+   try{
+       mockMvc.perform(MockMvcRequestBuilders.get(getUrl+"12")
+       ).andExpect(MockMvcResultMatchers.status().isNotFound());
+   }catch ( Exception e) {
+       System.out.println(e);
+   }
+
+
     }
     @Test
     void addTest()throws Exception{
@@ -127,6 +136,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 .accept(MediaType.APPLICATION_JSON)
         ).andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
 
+
+        ResultEntity res1 =  new ResultEntity();
+        res1.setId(20);
+        res1.setStatus(null);
+
+        try{
+            resultRepository.saveAndFlush(res1);
+            mockMvc.perform(MockMvcRequestBuilders.post(getUrl)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(MAPPER.writeValueAsString(res1))
+                    .accept(MediaType.APPLICATION_JSON)
+            ).andExpect(MockMvcResultMatchers.status().isNotFound());
+        }catch ( Exception e) {
+            System.out.println(e);
+        }
+
+
     }
 
     @Test
@@ -137,6 +163,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         resultRepository.saveAndFlush(res);
         mockMvc.perform(MockMvcRequestBuilders.delete(getUrl+12)
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isOk());
+
+        try{
+            mockMvc.perform(MockMvcRequestBuilders.get(getUrl+"20")
+            ).andExpect(MockMvcResultMatchers.status().isNotFound());
+        }catch ( Exception e) {
+            System.out.println(e);
+        }
+
     }
 
     @Test
@@ -156,6 +190,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         ).andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.status").value("pass"))
                 .andDo(print());
+
+        try{
+            mockMvc.perform(MockMvcRequestBuilders.get(getUrl+"20")
+            ).andExpect(MockMvcResultMatchers.status().isNotFound());
+        }catch ( Exception e) {
+            System.out.println(e);
+        }
 
 
     }
