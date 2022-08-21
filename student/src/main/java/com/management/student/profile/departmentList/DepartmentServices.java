@@ -1,11 +1,10 @@
 package com.management.student.profile.departmentList;
 
+import java.util.List;
+import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DepartmentServices {
@@ -17,13 +16,13 @@ public class DepartmentServices {
     }
 
     public List<DepartmentEntity> getDepartments(){
-        List<DepartmentEntity> departments = (List<DepartmentEntity>) departmentRepository.findAll();
+        List<DepartmentEntity> departments = departmentRepository.findAll();
         return departments;
     }
 
     public DepartmentEntity getDepartmentById(Integer id){
         Optional<DepartmentEntity> department = departmentRepository.findById(id);
-        if(department.isPresent()==false){
+        if(!department.isPresent()){
             throw new IllegalStateException("Department Not Found");
         }
         DepartmentEntity dept = department.get();
@@ -38,7 +37,7 @@ public class DepartmentServices {
     public DepartmentEntity updateDepartment(Integer id, DepartmentEntity department) throws Exception{
         Optional<DepartmentEntity> previousDepartment = departmentRepository.findById(id);
 
-        if(previousDepartment.isPresent()==false){
+        if(!previousDepartment.isPresent()){
             throw new Exception("Department not found");
         }
 
@@ -54,7 +53,7 @@ public class DepartmentServices {
     public ResponseEntity deleteDepartment(Integer id) throws Exception {
         Optional<DepartmentEntity> department = departmentRepository.findById(id);
 
-        if(department.isPresent()==false){
+        if(!department.isPresent()){
             throw new Exception("Department not found");
         }
 

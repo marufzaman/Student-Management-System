@@ -1,16 +1,16 @@
 package com.management.student.profile.departmentList;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class DepartmentControllerTest {
@@ -21,7 +21,7 @@ class DepartmentControllerTest {
 
     private DepartmentRepository departmentRepositoryOriginal;
 
-    private String baseUrl = "http://localhost:8080/api/department";
+    private final String baseUrl = "http://localhost:8080/api/department";
 
     @InjectMocks
     private DepartmentServices departmentServices;
